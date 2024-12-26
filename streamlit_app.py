@@ -17,7 +17,7 @@ def plot_price_chart(ticker, stock_prices):
         yaxis_title="Price ($)",
         template="plotly_white"
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, config={"scrollZoom": False, "displayModeBar": False, "staticPlot": False})
 
 # Function to plot drawdown and underwater periods
 def plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y):
@@ -38,7 +38,7 @@ def plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y):
         yaxis_title="Drawdown (%)",
         template="plotly_white"
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, config={"scrollZoom": False, "displayModeBar": False, "staticPlot": False})
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(
@@ -54,7 +54,7 @@ def plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y):
         yaxis_title="Duration (Months)",
         template="plotly_white"
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, config={"scrollZoom": False, "displayModeBar": False, "staticPlot": False})
 
 # Function to plot annual returns chart
 def plot_annual_returns(ticker, annual_return, bin_size = 10):
@@ -81,7 +81,7 @@ def plot_annual_returns(ticker, annual_return, bin_size = 10):
         yaxis_title="Annual Returns (%)",
         template="plotly_white"
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, config={"scrollZoom": False, "displayModeBar": False, "staticPlot": False})
 
     positive_returns = [v for v in values if v > 0]
     negative_returns = [v for v in values if v <= 0]
@@ -122,7 +122,7 @@ def plot_annual_returns(ticker, annual_return, bin_size = 10):
         template="plotly_white",
         showlegend=False  # Remove legend
     )
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, config={"scrollZoom": False, "displayModeBar": False, "staticPlot": False})
 
 # Function to plot seasonality histogram
 def plot_seasonality_and_table(ticker, monthly_returns):
@@ -139,7 +139,7 @@ def plot_seasonality_and_table(ticker, monthly_returns):
     )
     fig.update_traces(marker=dict(color=["green" if val > 0 else "red" for val in monthly_avg_filled]),
                       hovertemplate="Month: %{x}<br>Monthly Return: %{y:.2f}%")
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, config={"scrollZoom": False, "displayModeBar": False, "staticPlot": False})
 
 # Main Streamlit App
 def main():
