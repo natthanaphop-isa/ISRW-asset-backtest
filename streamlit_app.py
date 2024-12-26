@@ -220,7 +220,7 @@ def main():
                     }
                 
                 if results:
-                    st.subheader(f"{ticker} Analysis between {start_date.strftime(r"%b")}, {start_date.year} to {end_date.strftime(r"%b")}, {end_date.year}")
+                    st.subheader(f"{ticker} Analysis between {start_date.strftime(f"%b")}, {start_date.year} to {end_date.strftime(f"%b")}, {end_date.year}")
                     for ticker, metrics in results.items():
                         st.write(f"### {ticker}")
                         for metric, value in metrics.items():
