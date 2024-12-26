@@ -147,7 +147,7 @@ def main():
 
     # User inputs
     tickers = st.text_input("Enter ticker symbols (comma-separated):", "SPY")
-    start_date = st.date_input("Start date:", dt.date.today() - dt.timedelta(days=365 * 30))
+    start_date = st.date_input("Start date:", dt.date.today() - dt.timedelta(days=365 * 20))
     end_date = st.date_input("End date:", dt.date.today())
 
     if st.button("Run Backtest"):
