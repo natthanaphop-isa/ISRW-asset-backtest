@@ -155,8 +155,7 @@ def main():
             stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
             stock_data = yf.download(stocks, start=start_date, end=end_date)['Close']
             returns = stock_data.pct_change()
-            results = {}
-
+            
             for ticker in stocks:
                 if ticker not in stock_data.columns:
                     st.error(f"No data available for {ticker}.")
@@ -164,6 +163,8 @@ def main():
 
                 stock_prices = stock_data[ticker]
                 stock_returns = returns[ticker]
+
+                results = {}
                 
                 # Calculate years
                 difference = end_date - start_date
