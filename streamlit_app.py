@@ -57,7 +57,7 @@ def plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y):
     st.plotly_chart(fig)
 
 # Function to plot annual returns chart
-def plot_annual_returns(ticker, annual_return):
+def plot_annual_returns(ticker, annual_return, bin_size = 10):
     annual_return_percentage = annual_return * 100
     years = annual_return.index.year
     values = annual_return_percentage.values
