@@ -97,7 +97,7 @@ def plot_annual_returns(ticker, annual_return, bin_size = 10):
                 size=bin_size  # Set bin size
             ),
             name = f'{ticker}',
-            hovertemplate="Count: {y}"
+            hovertemplate=f"Count: {y}"
         ))
 
     # Add negative returns histogram
@@ -109,7 +109,7 @@ def plot_annual_returns(ticker, annual_return, bin_size = 10):
                 size=bin_size  # Set bin size
             ),
             name = f'{ticker}',
-            hovertemplate="Count: {y}"
+            hovertemplate=f"Count: {y}"
         ))
 
     fig.update_traces(marker_line_width=0)
