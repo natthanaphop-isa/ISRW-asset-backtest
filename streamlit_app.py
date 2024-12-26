@@ -10,7 +10,7 @@ import streamlit as st
 # Function to plot the price chart
 def plot_price_chart(ticker, stock_prices):
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=stock_prices.index, y=stock_prices, mode='lines', name='Price', line=dict(color='black')))
+    fig.add_trace(go.Scatter(x=stock_prices.index, y=stock_prices, mode='lines', name='Price', line=dict(color='blue')))
     fig.update_layout(
         title=f"{ticker} Price Chart",
         xaxis_title="Date",
@@ -29,7 +29,8 @@ def plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y):
         fill='tozeroy',
         fillcolor='pink',
         name='Drawdown',
-        line=dict(color='red')
+        line=dict(color='red'),
+        hovertemplate="Date: %{x|%Y-%m-%d}<br>Drawdown: %{y:.2f}%"
     ))
     fig.update_layout(
         title=f"{ticker} Drawdown",
@@ -45,7 +46,8 @@ def plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y):
         y=underwater_y,
         mode='lines',
         name='Underwater Duration',
-        line=dict(color='green')
+        line=dict(color='green'),
+        hovertemplate="Date: %{x|%Y-%m-%d}<br>Duration: %{y:.1f} Months
     ))
     fig.update_layout(
         title=f"{ticker} Underwater Period Duration",
@@ -70,7 +72,8 @@ def plot_annual_returns(ticker, annual_return):
         x=full_years,
         y=all_values,
         name=f'{ticker}',
-        marker=dict(color=["red" if v <= 0 else "green" for v in all_values])
+        marker=dict(color=["red" if v <= 0 else "green" for v in all_values],
+        hovertemplate="Year: %{x}<br>Annual Return: %{y:.2f}%")
     ))
     fig.add_hline(y=0, line=dict(color="black", dash="dash"))
     fig.update_layout(
@@ -78,6 +81,47 @@ def plot_annual_returns(ticker, annual_return):
         xaxis_title="Year",
         yaxis_title="Annual Returns (%)",
         template="plotly_white"
+    )
+    st.plotly_chart(fig)
+
+    positive_returns = [v for v in values if v > 0]
+    negative_returns = [v for v in values if v <= 0]
+
+    fig = go.Figure()
+
+    # Add positive returns histogram
+    if positive_returns:
+        fig.add_trace(go.Histogram(
+            x=positive_returns,
+            marker=dict(color="green"),
+            xbins=dict(
+                size=bin_size  # Set bin size
+            ),
+            name = f'{ticker}',
+            hovertemplate="Count: {y}"
+        ))
+
+    # Add negative returns histogram
+    if negative_returns:
+        fig.add_trace(go.Histogram(
+            x=negative_returns,
+            marker=dict(color="red"),
+            xbins=dict(
+                size=bin_size  # Set bin size
+            ),
+            name = f'{ticker}',
+            hovertemplate="Count: {y}"
+        ))
+
+    fig.update_traces(marker_line_width=0)
+    fig.update_layout(
+        barmode='overlay',
+        title=f"{ticker} Annual Returns Distribution",
+        xaxis_title="Annual Return (%)",
+        yaxis_title="Frequency",
+        bargap=0.2,  # Add spacing between bars
+        template="plotly_white",
+        showlegend=False  # Remove legend
     )
     st.plotly_chart(fig)
 
@@ -94,7 +138,8 @@ def plot_seasonality_and_table(ticker, monthly_returns):
         title=f"{ticker} Seasonality Analysis",
         template="plotly_white"
     )
-    fig.update_traces(marker=dict(color=["green" if val > 0 else "red" for val in monthly_avg_filled]))
+    fig.update_traces(marker=dict(color=["green" if val > 0 else "red" for val in monthly_avg_filled]),
+                      hovertemplate="Month: %{x}<br>Monthly Return: %{y:.2f}%")
     st.plotly_chart(fig)
 
 # Main Streamlit App
