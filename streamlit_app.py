@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 import datetime as dt
 import streamlit as st
+import calendar
 
 # Function to plot the price chart
 def plot_price_chart(ticker, stock_prices):
@@ -153,11 +154,33 @@ def plot_seasonality_and_table(ticker, monthly_returns):
 # Main Streamlit App
 def main():
     st.title("Asset Analysis By Isara Wealth")
+    # User selects month and year
+    months = {
+        "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, 
+        "June": 6, "July": 7, "August": 8, "September": 9, "October": 10, 
+        "November": 11, "December": 12
+    }
+    tickers = st.text_input("Enter ticker symbol:", "SPY")
+    # Dropdowns for month and year selection
+    selected_start_month = st.selectbox("Start month:", list(months.keys()), index=0)
+    selected_start_year = st.number_input("Start year:", min_value=2000, max_value=dt.date.today().year, value= (dt.date.today() - dt.timedelta(days = 365*20)).year)
+    
+    selected_end_month = st.selectbox("End month:", list(months.keys()), index=11)
+    selected_end_year = st.number_input("End year:", min_value=2000, max_value=dt.date.today().year, value=dt.date.today().year)
+    
+    # Calculate the start date (first day of the month)
+    start_month_number = months[selected_start_month]
+    start_date = dt.date(selected_start_year, start_month_number, 1)
+    
+    # Calculate the end date (last day of the month)
+    end_month_number = months[selected_end_month]
+    last_day = calendar.monthrange(selected_end_year, end_month_number)[1]  # Get the last day of the selected month
+    end_date = dt.date(selected_end_year, end_month_number, last_day)
 
     # User inputs
-    tickers = st.text_input("Enter ticker symbol:", "SPY")
-    start_date = st.date_input("Start date:", dt.date.today() - dt.timedelta(days=365 * 20))
-    end_date = st.date_input("End date:", dt.date.today())
+    # tickers = st.text_input("Enter ticker symbol:", "SPY")
+    # start_date = st.date_input("Start date:", dt.date.today() - dt.timedelta(days=365 * 20))
+    # end_date = st.date_input("End date:", dt.date.today())
 
     if st.button("Run Backtest"):
         try:
