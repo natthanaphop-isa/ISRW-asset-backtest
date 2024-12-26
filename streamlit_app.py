@@ -196,8 +196,6 @@ def main():
                 if recovery_date:
                     recovery_period = (recovery_date - max_drawdown_start).days
 
-                recovery_period = recovery_period / 30.22
-
                 # Underwater Duration Calculation
                 underwater_x = []
                 underwater_y = []
@@ -218,7 +216,7 @@ def main():
                     'Compound Annual Growth Rate (CAGR)': cagr,
                     'Annual Volatility':  annual_volatility,
                     'Max Drawdown': max_drawdown,
-                    'Recovery Period (Months)': recovery_period
+                    'Recovery Period (Months)': recovery_period / 30.22
                     }
                 
                 if results:
@@ -226,12 +224,10 @@ def main():
                     for ticker, metrics in results.items():
                         for metric, value in metrics.items():
                             if isinstance(value, float):
-                                if 'CAGR' or 'Risk' or "Annual" or 'Drawdown' in metric:
-                                    st.write(f"{metric}: {value * 100:.2f}%")
-                                elif 'Months' in metric:
+                                if 'Months' in metric:
                                     st.write(f"{metric}: {value:.2f} Months")
                                 else:
-                                    st.write(f"{metric}: {value:.2f}")
+                                    st.write(f"{metric}: {value * 100:.2f}")
                             else:
                                 st.write(f"{metric}: {value}")
                 plot_price_chart(ticker, stock_prices)
