@@ -226,7 +226,7 @@ def main():
                     for ticker, metrics in results.items():
                         for metric, value in metrics.items():
                             if isinstance(value, float):
-                                if 'CAGR' in metric or 'Risk' or "Annual" or 'Drawdown' in metric:
+                                if 'CAGR' or 'Risk' or "Annual" or 'Drawdown' in metric:
                                     st.write(f"{metric}: {value * 100:.2f}%")
                                 elif 'Recovery' in metric:
                                     st.write(f"{metric}: {value:.2f} Months")
