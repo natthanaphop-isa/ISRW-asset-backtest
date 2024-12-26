@@ -86,6 +86,8 @@ def plot_annual_returns(ticker, annual_return, bin_size = 10):
         yaxis_title="Annual Returns (%)",
         template="plotly_white"
     )
+    fig.layout.xaxis.fixedrange = True
+    fig.layout.yaxis.fixedrange = True
     st.plotly_chart(fig)
     
     positive_returns = [v for v in values if v > 0]
@@ -127,6 +129,8 @@ def plot_annual_returns(ticker, annual_return, bin_size = 10):
         template="plotly_white",
         showlegend=False  # Remove legend
     )
+    fig.layout.xaxis.fixedrange = True
+    fig.layout.yaxis.fixedrange = True
     st.plotly_chart(fig)
 # Function to plot seasonality histogram
 def plot_seasonality_and_table(ticker, monthly_returns):
