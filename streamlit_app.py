@@ -227,7 +227,7 @@ def main():
                                 if 'Months' in metric:
                                     st.write(f"{metric}: {value:.2f} Months")
                                 else:
-                                    st.write(f"{metric}: {value * 100:.2f}")
+                                    st.write(f"{metric}: {value * 100:.2f}%")
                             else:
                                 st.write(f"{metric}: {value}")
                 plot_price_chart(ticker, stock_prices)
