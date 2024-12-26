@@ -218,8 +218,8 @@ def main():
                     underwater_y.append(cumulative_duration)
 
                 # Calendar Year Returns
-                annual_returns = stock_returns.resample('Y').sum()
-                monthly_returns = stock_returns.resample('M').sum()
+                annual_returns = stock_returns.resample('YE').sum()
+                monthly_returns = stock_returns.resample('ME').sum()
 
                 results[ticker] = {
                     'Compound Annual Growth Rate (CAGR)': cagr,
@@ -246,7 +246,6 @@ def main():
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
-    return tickers
 
 if __name__ == "__main__":
     main()
