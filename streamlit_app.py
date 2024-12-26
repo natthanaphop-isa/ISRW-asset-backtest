@@ -216,9 +216,9 @@ def main():
 
                 results[ticker] = {
                     'Compound Annual Growth Rate (CAGR)': cagr,
-                    'Annual Volatility':  f"{annual_volatility*100}",
-                    'Max Drawdown': f"{max_drawdown*100}%",
-                    'Recovery Period': f"{recovery_period:.2f} Months"
+                    'Annual Volatility':  annual_volatility,
+                    'Max Drawdown': max_drawdown*100",
+                    'Recovery Period (Months)': recovery_period
                     }
                 
                 if results:
@@ -226,7 +226,7 @@ def main():
                     for ticker, metrics in results.items():
                         for metric, value in metrics.items():
                             if isinstance(value, float):
-                                if 'CAGR' in metric or 'Risk' in metric:
+                                if 'CAGR' in metric or 'Risk' or "Annual" or 'Drawdown' in metric:
                                     st.write(f"{metric}: {value * 100:.2f}%")
                                 elif 'Months' in metric:
                                     st.write(f"{metric}: {value:.2f} Months")
