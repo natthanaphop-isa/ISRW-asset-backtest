@@ -147,7 +147,7 @@ def main():
 
     # User inputs
     tickers = st.text_input("Enter ticker symbols (comma-separated):", "SPY")
-    start_date = st.date_input("Start date:", dt.date.today() - dt.timedelta(days=365 * 10))
+    start_date = st.date_input("Start date:", dt.date.today() - dt.timedelta(days=365 * 30))
     end_date = st.date_input("End date:", dt.date.today())
 
     if st.button("Run Backtest"):
@@ -160,9 +160,17 @@ def main():
                 if ticker not in stock_data.columns:
                     st.error(f"No data available for {ticker}.")
                     continue
-
+                # Calculate years
                 stock_prices = stock_data[ticker]
                 stock_returns = returns[ticker]
+
+                difference = end - start
+                years = difference.total_seconds() / (365.25 * 24 * 3600)
+    
+                # CAGR
+                start_price = stock_prices.iloc[0]
+                end_price = stock_prices.iloc[-1]
+                cagr = ((end_price / start_price) ** (1 / years)) - 1
 
                 # Drawdown Calculation
                 rolling_max = stock_prices.cummax()
@@ -184,7 +192,28 @@ def main():
                 annual_returns = stock_returns.resample('Y').sum()
                 monthly_returns = stock_returns.resample('M').sum()
 
+                results[ticker] = {
+                'Compound Annual Growth Rate (CAGR)': cagr,
+                'Annualized Risk': annual_volatility,
+                'Max Drawdown': max_drawdown,
+                'Recovery Period (Months)': recovery_period
+                    }
                 st.subheader(f"{ticker} Analysis")
+                
+                if results:
+                st.subheader("Backtest Results")
+                for ticker, metrics in results.items():
+                    st.write(f"### {ticker}")
+                    for metric, value in metrics.items():
+                        if isinstance(value, float):
+                            if 'CAGR' in metric or 'Risk' in metric:
+                                st.write(f"{metric}: {value * 100:.2f}%")
+                            elif 'Months' in metric:
+                                st.write(f"{metric}: {value:.2f} Months")
+                            else:
+                                st.write(f"{metric}: {value:.2f}")
+                        else:
+                            st.write(f"{metric}: {value}")
                 plot_price_chart(ticker, stock_prices)
                 plot_annual_returns(ticker, annual_returns)
                 plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y)
