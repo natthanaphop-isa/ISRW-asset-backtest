@@ -164,13 +164,22 @@ def main():
             stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
             stock_data = yf.download(stocks, start=start_date, end=end_date)['Close']
             returns = stock_data.pct_change()
+
+            stock_data = yf.download(stocks, start=start_date, end=end_date)['Close']
+            if stock_data.empty:
+                st.error(f"No data available for the selected tickers: {stocks}.")
+                return
             
             for ticker in stocks:
                 if ticker not in stock_data.columns:
                     st.error(f"No data available for {ticker}.")
                     continue
-
+            
                 stock_prices = stock_data[ticker]
+                if stock_prices.isnull().all():
+                    st.error(f"All data for {ticker} is missing or invalid.")
+                    continue
+                    
                 stock_returns = returns[ticker]
 
                 results = {}
