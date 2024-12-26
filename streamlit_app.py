@@ -175,6 +175,7 @@ def main():
             
             # Iterate over each ticker
             for ticker in stocks:
+                results = {}
                 if ticker not in stock_data.columns:
                     st.error(f"No data available for {ticker}.")
                     continue
