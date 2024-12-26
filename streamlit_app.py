@@ -22,7 +22,7 @@ def plot_price_chart(ticker, stock_prices):
 # Function to calculate and display backtest results
 def backtestStocks_plotly(stocks, start, end):
     try:
-        stock_data = yf.download(stocks, start=start, end=end)['Adj Close']
+        stock_data = yf.download(stocks, start=start, end=end)['Close']
         returns = stock_data.pct_change()
 
         results = {}
@@ -64,8 +64,8 @@ def backtestStocks_plotly(stocks, start, end):
                 recovery_period = (recovery_date - max_drawdown_start).days / 30.22
 
             # Calendar Year Returns
-            monthly_returns = stock_returns.resample('M').sum()
-            annual_returns = stock_returns.resample('Y').sum()
+            monthly_returns = stock_returns.resample('ME').sum()
+            annual_returns = stock_returns.resample('YE').sum()
 
             # Store results
             results[ticker] = {
