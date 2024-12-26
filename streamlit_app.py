@@ -154,6 +154,15 @@ def plot_seasonality_and_table(ticker, monthly_returns):
 # Main Streamlit App
 def main():
     st.title("Asset Analysis By Isara Wealth")
+    st.markdown(f"""
+    ETF RESEARCH TOOL
+    โดย นพ.ณัฐธนภพ อิศรเดช (หมอเฟ้น)
+    - แพทย์ และนักวิจัย: Machine Learning, Clinical NLP, Clinical Epidemiology
+    - เจ้าของบล็อก www.isarawealth.com
+    - IP License No. 132355 ใบอนุญาตผู้วางแผนการลงทุน โดย กลต.
+    - ที่ปรึกษาทางการเงิน บลน. Finnomena
+    - ตัวแทนประกันชีวิตและ Unitlink AIA รหัส 692246
+    """)
     # User selects month and year
     months = {
         "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, 
