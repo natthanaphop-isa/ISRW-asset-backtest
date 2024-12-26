@@ -163,10 +163,10 @@ def main():
     tickers = st.text_input("Enter ticker symbol:", "SPY")
     # Dropdowns for month and year selection
     selected_start_month = st.selectbox("Start month:", list(months.keys()), index=0)
-    selected_start_year = st.number_input("Start year:", min_value=2000, max_value=dt.date.today().year, value= (dt.date.today() - dt.timedelta(days = 365*20)).year)
+    selected_start_year = st.number_input("Start year:", min_value=1990, max_value=dt.date.today().year, value= (dt.date.today() - dt.timedelta(days = 365*20)).year)
     
     selected_end_month = st.selectbox("End month:", list(months.keys()), index=11)
-    selected_end_year = st.number_input("End year:", min_value=2000, max_value=dt.date.today().year, value=dt.date.today().year)
+    selected_end_year = st.number_input("End year:", min_value=1990, max_value=dt.date.today().year, value=dt.date.today().year)
     
     # Calculate the start date (first day of the month)
     start_month_number = months[selected_start_month]
