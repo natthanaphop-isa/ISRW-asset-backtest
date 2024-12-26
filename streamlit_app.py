@@ -179,19 +179,6 @@ def main():
                 difference = end_date - start_date
                 years = difference.total_seconds() / (365.25 * 24 * 3600)
                 
-                # Check for valid stock_prices
-                if stock_prices.empty:
-                    st.error(f"No data available for {ticker} in the selected date range.")
-                    continue
-                
-                # Ensure start_price and end_price are valid
-                start_price = stock_prices.iloc[0] if not stock_prices.empty else None
-                end_price = stock_prices.iloc[-1] if not stock_prices.empty else None
-                
-                if start_price is None or end_price is None or years <= 0:
-                    st.error(f"Invalid data for {ticker}. Cannot calculate CAGR.")
-                    continue
-                
                 # CAGR Calculation
                 cagr = ((end_price / start_price) ** (1 / years)) - 1
                 # Annualized Volatility
@@ -254,6 +241,8 @@ def main():
                 plot_annual_returns(ticker, annual_returns)
                 plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y)
                 plot_seasonality_and_table(ticker, monthly_returns)
+
+        return results
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
