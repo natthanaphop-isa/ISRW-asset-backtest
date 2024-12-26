@@ -86,12 +86,10 @@ def plot_annual_returns(ticker, annual_return, bin_size = 10):
         yaxis_title="Annual Returns (%)",
         template="plotly_white"
     )
-    fig.layout.xaxis.fixedrange = True
-    fig.layout.yaxis.fixedrange = True
     st.plotly_chart(fig)
     
     positive_returns = [v for v in values if v > 0]
-    negative_returns = [v for v in values if v <= 0]
+    negative_returns = [v for v in values if v < 0]
 
     fig = go.Figure()
 
