@@ -162,96 +162,77 @@ def main():
     if st.button("Run Backtest"):
         try:
             stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
-            stock_data = yf.download(stocks, start=start_date, end=end_date)['Close']
-            returns = stock_data.pct_change()
-
-            stock_data = yf.download(stocks, start=start_date, end=end_date)['Close']
-            if stock_data.empty:
-                st.error(f"No data available for the selected tickers: {stocks}.")
+            # Download stock data
+            stock_data = yf.download(stocks, start=start_date, end=end_date)
+            
+            # Ensure 'Close' column exists and is properly formatted
+            if 'Close' not in stock_data.columns:
+                st.error("No 'Close' data available for the selected tickers.")
                 return
             
+            stock_data = stock_data['Close']  # Focus only on Close prices
+            returns = stock_data.pct_change()  # Calculate returns
+            
+            # Iterate over each ticker
             for ticker in stocks:
                 if ticker not in stock_data.columns:
                     st.error(f"No data available for {ticker}.")
                     continue
             
-                stock_prices = stock_data[ticker]
-                if stock_prices.isnull().all():
-                    st.error(f"All data for {ticker} is missing or invalid.")
+                stock_prices = stock_data[ticker].dropna()  # Ensure no NaNs
+                if stock_prices.empty:
+                    st.error(f"No valid data for {ticker}.")
                     continue
-                    
-                stock_returns = returns[ticker]
-
-                results = {}
-                
+            
+                stock_returns = returns[ticker].dropna()
+            
                 # Calculate years
                 difference = end_date - start_date
                 years = difference.total_seconds() / (365.25 * 24 * 3600)
-                
-                # CAGR Calculation
+            
+                # Ensure valid start_price and end_price
                 start_price = stock_prices.iloc[0]
                 end_price = stock_prices.iloc[-1]
+            
+                if years <= 0 or start_price == 0 or end_price == 0:
+                    st.error(f"Invalid data for {ticker}. Cannot calculate CAGR.")
+                    continue
+            
+                # CAGR Calculation
                 cagr = ((end_price / start_price) ** (1 / years)) - 1
-                # Annualized Volatility
-                annual_volatility = np.std(stock_returns) * np.sqrt(252)
             
                 # Drawdown Calculation
                 rolling_max = stock_prices.cummax()
                 drawdown = (stock_prices / rolling_max) - 1
-
-                # Maximum Drawdown and Recovery Period Calculation
-                max_drawdown = drawdown.min()
+            
+                # Handle recovery period
                 max_drawdown_start = drawdown.idxmin()  # Date of max drawdown
-
-                # Identify the recovery date
                 recovery_date = None
                 for date, price in stock_prices[max_drawdown_start:].items():
                     if price >= rolling_max[max_drawdown_start]:
                         recovery_date = date
                         break
-                # Calculate recovery period
-                recovery_period = None
-                if recovery_date:
-                    recovery_period = (recovery_date - max_drawdown_start).days
-
-                # Underwater Duration Calculation
-                underwater_x = []
-                underwater_y = []
-                cumulative_duration = 0
-                for date, value in drawdown.items():
-                    if value < 0:
-                        cumulative_duration += 1 / 30
-                    else:
-                        cumulative_duration = 0
-                    underwater_x.append(date)
-                    underwater_y.append(cumulative_duration)
-
-                # Calendar Year Returns
-                annual_returns = stock_returns.resample('YE').sum()
-                monthly_returns = stock_returns.resample('ME').sum()
-
+                recovery_period = (recovery_date - max_drawdown_start).days if recovery_date else None
+            
+                # Resample annual and monthly returns
+                annual_returns = stock_returns.resample('Y').sum()
+                monthly_returns = stock_returns.resample('M').sum()
+            
+                # Store results
                 results[ticker] = {
                     'Compound Annual Growth Rate (CAGR)': cagr,
-                    'Annual Volatility':  annual_volatility,
-                    'Max Drawdown': max_drawdown,
-                    'Recovery Period (Months)': recovery_period / 30.22
-                    }
-                
-                if results:
-                    st.subheader(f"{ticker} Analysis between {start_date.strftime('%b')}-{start_date.year} to {end_date.strftime('%b')}-{end_date.year}")
-                    for ticker, metrics in results.items():
-                        for metric, value in metrics.items():
-                            if isinstance(value, float):
-                                if 'Months' in metric:
-                                    st.write(f"{metric}: {value:.2f} Months")
-                                else:
-                                    st.write(f"{metric}: {value * 100:.2f}%")
-                            else:
-                                st.write(f"{metric}: {value}")
+                    'Annual Volatility': np.std(stock_returns) * np.sqrt(252),
+                    'Max Drawdown': drawdown.min(),
+                    'Recovery Period (Months)': recovery_period / 30.22 if recovery_period else "N/A"
+                }
+            
+                # Plot charts
+                st.subheader(f"{ticker} Analysis from {start_date} to {end_date}")
                 plot_price_chart(ticker, stock_prices)
                 plot_annual_returns(ticker, annual_returns)
-                plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y)
+                plot_drawdown_and_underwater(ticker, drawdown, underwater_x=[], underwater_y=[])
                 plot_seasonality_and_table(ticker, monthly_returns)
+
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
