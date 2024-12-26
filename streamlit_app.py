@@ -71,8 +71,8 @@ def plot_annual_returns(ticker, annual_return, bin_size = 10):
         x=full_years,
         y=all_values,
         name=f'{ticker}',
-        marker=dict(color=["red" if v <= 0 else "green" for v in all_values],
-        )
+        marker=dict(color=["red" if v <= 0 else "green" for v in all_values]),
+                    hovertemplate="Year: %{x}<br>Annual Return: %{y:.2f}%"
     ))
     fig.add_hline(y=0, line=dict(color="black", dash="dash"))
     fig.update_layout(
