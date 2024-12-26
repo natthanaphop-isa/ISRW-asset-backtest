@@ -228,7 +228,7 @@ def main():
                             if isinstance(value, float):
                                 if 'CAGR' in metric or 'Risk' or "Annual" or 'Drawdown' in metric:
                                     st.write(f"{metric}: {value * 100:.2f}%")
-                                elif 'Months' in metric:
+                                elif 'Recovery' in metric:
                                     st.write(f"{metric}: {value:.2f} Months")
                                 else:
                                     st.write(f"{metric}: {value:.2f}")
