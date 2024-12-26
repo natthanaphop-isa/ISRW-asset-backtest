@@ -144,7 +144,7 @@ def plot_seasonality_and_table(ticker, monthly_returns):
 # Function to calculate backtest metrics
 def backtestStocks_plotly(stocks, start, end):
     try:
-        stock_data = yf.download(stocks, start=start, end=end)['Adj Close']
+        stock_data = yf.download(stocks, start=start, end=end)['Close']
         returns = stock_data.pct_change()
 
         results = {}
