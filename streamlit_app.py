@@ -160,10 +160,11 @@ def main():
                 if ticker not in stock_data.columns:
                     st.error(f"No data available for {ticker}.")
                     continue
-                # Calculate years
+
                 stock_prices = stock_data[ticker]
                 stock_returns = returns[ticker]
-
+                
+                # Calculate years
                 difference = end_date - start_date
                 years = difference.total_seconds() / (365.25 * 24 * 3600)
     
@@ -172,6 +173,9 @@ def main():
                 end_price = stock_prices.iloc[-1]
                 cagr = ((end_price / start_price) ** (1 / years)) - 1
 
+                # Annualized Volatility
+                annual_volatility = np.std(stock_returns) * np.sqrt(252)
+            
                 # Drawdown Calculation
                 rolling_max = stock_prices.cummax()
                 drawdown = (stock_prices / rolling_max) - 1
