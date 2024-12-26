@@ -184,6 +184,11 @@ def main():
                 max_drawdown = drawdown.min()
                 max_drawdown_start = drawdown.idxmin()  # Date of max drawdown
 
+                # Calculate recovery period
+                recovery_period = None
+                if recovery_date:
+                    recovery_period = (recovery_date - max_drawdown_start).days
+
                 # Underwater Duration Calculation
                 underwater_x = []
                 underwater_y = []
