@@ -217,7 +217,7 @@ def main():
                 results[ticker] = {
                     'Compound Annual Growth Rate (CAGR)': cagr,
                     'Annual Volatility':  annual_volatility,
-                    'Max Drawdown': max_drawdown*100",
+                    'Max Drawdown': max_drawdown,
                     'Recovery Period (Months)': recovery_period
                     }
                 
