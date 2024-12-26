@@ -196,6 +196,8 @@ def main():
                 if recovery_date:
                     recovery_period = (recovery_date - max_drawdown_start).days
 
+                recovery_period = recovery_period / 30.22
+
                 # Underwater Duration Calculation
                 underwater_x = []
                 underwater_y = []
@@ -216,7 +218,7 @@ def main():
                     'Compound Annual Growth Rate (CAGR)': cagr,
                     'Annual Volatility': annual_volatility,
                     'Max Drawdown': max_drawdown,
-                    'Recovery Period': f"{recovery_period / 30.22} Months"
+                    'Recovery Period': f"{recovery_period:.2f} Months"
                     }
                 
                 if results:
