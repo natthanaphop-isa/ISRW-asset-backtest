@@ -180,6 +180,8 @@ def main():
                 years = difference.total_seconds() / (365.25 * 24 * 3600)
                 
                 # CAGR Calculation
+                start_price = stock_prices.iloc[0]
+                end_price = stock_prices.iloc[-1]
                 cagr = ((end_price / start_price) ** (1 / years)) - 1
                 # Annualized Volatility
                 annual_volatility = np.std(stock_returns) * np.sqrt(252)
