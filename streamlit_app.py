@@ -155,6 +155,7 @@ def main():
             stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
             stock_data = yf.download(stocks, start=start_date, end=end_date)['Close']
             returns = stock_data.pct_change()
+            results = {}
 
             for ticker in stocks:
                 if ticker not in stock_data.columns:
