@@ -51,7 +51,7 @@ def plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y):
         y=underwater_y,
         mode='lines',
         name='Underwater Duration',
-        line=dict(color='green'),
+        line=dict(color='#ffde59'),
         hovertemplate="Date: %{x|%Y-%m-%d}<br>Duration: %{y:.1f} Months"))
     fig.update_layout(
         title=f"{ticker} Underwater Period Duration",
