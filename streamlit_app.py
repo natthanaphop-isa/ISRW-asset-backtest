@@ -11,7 +11,7 @@ import calendar
 # Function to plot the price chart
 def plot_price_chart(ticker, stock_prices):
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=stock_prices.index, y=stock_prices, mode='lines', name='Price', line=dict(color='blue'), hovertemplate="%${y:.2f}"))
+    fig.add_trace(go.Scatter(x=stock_prices.index, y=stock_prices, mode='lines', name='Price', line=dict(color='blue'), hovertemplate="$%{y:.2f}"))
     fig.update_layout(
         title=f"{ticker} Price Chart",
         xaxis_title="Date",
