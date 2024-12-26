@@ -242,7 +242,7 @@ def main():
                 plot_drawdown_and_underwater(ticker, drawdown, underwater_x, underwater_y)
                 plot_seasonality_and_table(ticker, monthly_returns)
 
-        return results
+    return tickers
 
         except Exception as e:
             st.error(f"An error occurred: {e}")
