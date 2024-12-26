@@ -180,6 +180,10 @@ def main():
                 rolling_max = stock_prices.cummax()
                 drawdown = (stock_prices / rolling_max) - 1
 
+                # Maximum Drawdown and Recovery Period Calculation
+                max_drawdown = drawdown.min()
+                max_drawdown_start = drawdown.idxmin()  # Date of max drawdown
+
                 # Underwater Duration Calculation
                 underwater_x = []
                 underwater_y = []
@@ -197,10 +201,10 @@ def main():
                 monthly_returns = stock_returns.resample('M').sum()
 
                 results[ticker] = {
-                'Compound Annual Growth Rate (CAGR)': cagr,
-                'Annualized Risk': annual_volatility,
-                'Max Drawdown': max_drawdown,
-                'Recovery Period (Months)': recovery_period
+                    'Compound Annual Growth Rate (CAGR)': cagr,
+                    'Annualized Risk': annual_volatility,
+                    'Max Drawdown': max_drawdown,
+                    'Recovery Period (Months)': recovery_period
                     }
                 st.subheader(f"{ticker} Analysis")
                 
