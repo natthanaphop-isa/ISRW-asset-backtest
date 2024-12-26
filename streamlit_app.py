@@ -229,7 +229,7 @@ def main():
                     }
                 
                 if results:
-                    st.subheader(f"{ticker} Analysis between {start_date.strftime('%b')}-{start_date.year} to {end_date.strftime('%b')}-{end_date.year}")
+                    st.subheader(f"{ticker} Analysis between {start_date.strftime('%b')}, {start_date.year} to {end_date.strftime('%b')}, {end_date.year}")
                     for ticker, metrics in results.items():
                         for metric, value in metrics.items():
                             if isinstance(value, float):
