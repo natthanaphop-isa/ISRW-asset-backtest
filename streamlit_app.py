@@ -143,7 +143,7 @@ def plot_seasonality_and_table(ticker, monthly_returns):
 
 # Main Streamlit App
 def main():
-    st.title("Stock Analysis and Backtesting")
+    st.title("Asset Analysis By Isara Wealth")
 
     # User inputs
     tickers = st.text_input("Enter ticker symbols (comma-separated):", "SPY")
@@ -216,12 +216,11 @@ def main():
                     'Compound Annual Growth Rate (CAGR)': cagr,
                     'Annualized Risk': annual_volatility,
                     'Max Drawdown': max_drawdown,
-                    'Recovery Period (Months)': recovery_period
+                    'Recovery Period': f"{recovery_period / 30.22} Months"
                     }
-                st.subheader(f"{ticker} Analysis")
                 
                 if results:
-                    st.subheader("Backtest Results")
+                    st.subheader(f"{ticker} Analysis between {start_date.strftime("%b")}, {start_date.year} to {end_date.strftime("%b")}, {end_date.year}")
                     for ticker, metrics in results.items():
                         st.write(f"### {ticker}")
                         for metric, value in metrics.items():
