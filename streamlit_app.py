@@ -164,7 +164,7 @@ def main():
                 stock_prices = stock_data[ticker]
                 stock_returns = returns[ticker]
 
-                difference = end - start
+                difference = end_date - start_date
                 years = difference.total_seconds() / (365.25 * 24 * 3600)
     
                 # CAGR
