@@ -184,6 +184,12 @@ def main():
                 max_drawdown = drawdown.min()
                 max_drawdown_start = drawdown.idxmin()  # Date of max drawdown
 
+                # Identify the recovery date
+                recovery_date = None
+                for date, price in stock_prices[max_drawdown_start:].items():
+                    if price >= rolling_max[max_drawdown_start]:
+                        recovery_date = date
+                        break
                 # Calculate recovery period
                 recovery_period = None
                 if recovery_date:
