@@ -155,7 +155,7 @@ def main():
     st.title("Asset Analysis By Isara Wealth")
 
     # User inputs
-    tickers = st.text_input("Enter ticker symbol:", "AAPL")
+    tickers = st.text_input("Enter ticker symbol:", "SPY")
     start_date = st.date_input("Start date:", dt.date.today() - dt.timedelta(days=365 * 20))
     end_date = st.date_input("End date:", dt.date.today())
 
