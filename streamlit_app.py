@@ -109,7 +109,7 @@ def main():
     if st.button("Run Backtest"):
         try:
             stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
-            stock_data = yf.download(stocks, start=start_date, end=end_date)['Adj Close']
+            stock_data = yf.download(stocks, start=start_date, end=end_date)['Close']
             returns = stock_data.pct_change()
 
             for ticker in stocks:
