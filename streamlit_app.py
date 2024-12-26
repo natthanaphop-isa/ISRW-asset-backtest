@@ -146,8 +146,8 @@ def main():
     st.title("Asset Analysis By Isara Wealth")
 
     # User inputs
-    tickers = st.text_input("Enter ticker symbols (comma-separated):", "SPY")
-    start_date = st.date_input("Start date:", dt.date.today() - dt.timedelta(days=365 * 20))
+    tickers = st.text_input("Enter ticker symbols (comma-separated):", "QQQ, SPY, GLD, BND")
+    start_date = st.date_input("Start date:", dt.date.today() - dt.timedelta(days=365 * 15))
     end_date = st.date_input("End date:", dt.date.today())
 
     if st.button("Run Backtest"):
