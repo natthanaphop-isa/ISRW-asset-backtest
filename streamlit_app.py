@@ -170,6 +170,7 @@ def main():
         "November": 11, "December": 12
     }
     tickers = st.text_input("Enter ticker symbol:", "SPY")
+    tickers = str(tickers)
     # Dropdowns for month and year selection
     selected_start_month = st.selectbox("Start month:", list(months.keys()), index=0)
     selected_start_year = st.number_input("Start year:", min_value=1990, max_value=dt.date.today().year, value= (dt.date.today() - dt.timedelta(days = 365*20)).year)
