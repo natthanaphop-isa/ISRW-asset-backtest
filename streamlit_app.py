@@ -220,7 +220,7 @@ def main():
 
     if st.button("Run Backtest"):
         # Process ticker input
-        tickers = process_ticker_input(tickers_input)
+        tickers = process_ticker_input(tickers)
 
         try:
             if not tickers:
