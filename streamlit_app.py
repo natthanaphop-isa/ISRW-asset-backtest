@@ -194,16 +194,17 @@ def main():
     if st.button("Run Backtest"):
         try:
             stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
-            stock_data = yf.download(stocks, start=start_date, end=end_date)['Adj Close']
-            returns = stock_data.pct_change()
             
             for ticker in stocks:
                 if ticker not in stock_data.columns:
                     st.error(f"No data available for {ticker}.")
                     continue
+                
+                stock_prices = yf.Ticker(ticker).history(start=start_date, end=end_date)['Close']
+                stock_returns = stock_prices.pct_change()
 
-                stock_prices = stock_data[ticker]
-                stock_returns = returns[ticker]
+                # stock_prices = stock_data[ticker]
+                # stock_returns = returns[ticker]
 
                 results = {}
                 
