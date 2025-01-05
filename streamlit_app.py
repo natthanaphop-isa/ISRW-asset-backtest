@@ -192,6 +192,7 @@ def main():
     # end_date = st.date_input("End date:", dt.date.today())
 
     if st.button("Run Backtest"):
+        tickers = str(tickers)
         try:
             if "," in tickers:
                 stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
