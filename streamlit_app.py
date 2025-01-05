@@ -196,12 +196,13 @@ def main():
             stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
             
             for ticker in stocks:
-                if ticker not in stock_data.columns:
-                    st.error(f"No data available for {ticker}.")
-                    continue
                 
                 stock_prices = yf.Ticker(ticker).history(start=start_date, end=end_date)['Close']
                 stock_returns = stock_prices.pct_change()
+                
+                if ticker not in yf.Ticker(ticker).columns:
+                    st.error(f"No data available for {ticker}.")
+                    continue
 
                 # stock_prices = stock_data[ticker]
                 # stock_returns = returns[ticker]
