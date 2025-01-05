@@ -219,7 +219,6 @@ def main():
     # end_date = st.date_input("End date:", dt.date.today())
 
     if st.button("Run Backtest"):
-        if st.button("Run Backtest"):
         # Process ticker input
         tickers = process_ticker_input(tickers_input)
 
