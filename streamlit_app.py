@@ -197,7 +197,7 @@ def main():
             if "," in tickers:
                 stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
             else:
-                stocks = [tickers]
+                stocks = [tickers.upper()]
             
             for ticker in stocks:
                 
