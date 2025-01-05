@@ -8,6 +8,33 @@ import datetime as dt
 import streamlit as st
 import calendar
 
+def process_ticker_input(input_text):
+    try:
+        # Convert to string and strip whitespace
+        input_text = str(input_text).strip()
+
+        # Check for commas (multiple tickers)
+        if "," in input_text:
+            # Split by commas, clean, and convert to uppercase
+            tickers = [ticker.strip().upper() for ticker in input_text.split(",")]
+        else:
+            # Single ticker, ensure uppercase
+            tickers = [input_text.upper()]
+
+        # Validate tickers (optional: ensure valid characters)
+        valid_tickers = []
+        for ticker in tickers:
+            if all(char.isalnum() or char in {"^", "=", ".", "-"} for char in ticker):
+                valid_tickers.append(ticker)
+            else:
+                st.warning(f"Invalid ticker format: {ticker}")
+        
+        return valid_tickers
+
+    except Exception as e:
+        st.error(f"An error occurred while processing tickers: {e}")
+        return []
+        
 # Function to plot the price chart
 def plot_price_chart(ticker, stock_prices):
     fig = go.Figure()
@@ -192,16 +219,22 @@ def main():
     # end_date = st.date_input("End date:", dt.date.today())
 
     if st.button("Run Backtest"):
-        tickers = str(tickers)
+        if st.button("Run Backtest"):
+        # Process ticker input
+        tickers = process_ticker_input(tickers_input)
+
         try:
-            if "," in tickers:
-                stocks = [ticker.strip().upper() for ticker in tickers.split(',')]
-            else:
-                stocks = [tickers.upper()]
-            
-            for ticker in stocks:
-                
+            if not tickers:
+                st.error("No valid tickers provided.")
+                return
+
+            for ticker in tickers:
                 stock_prices = yf.Ticker(ticker).history(start=start_date, end=end_date)['Close']
+
+                if stock_prices.empty:
+                    st.warning(f"No data found for {ticker} in the specified date range.")
+                    continue
+                
                 stock_returns = stock_prices.pct_change()
 
                 # stock_prices = stock_data[ticker]
